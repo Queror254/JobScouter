@@ -4,12 +4,21 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { COLORS, icons, images, SIZES } from "./constants";
+import {
+  Nearbyjobs,
+  Popularjobs,
+  ScreenHeaderBtn,
+  Welcome,
+} from "./components";
 
 //it is always useful to implement navigation in the root App.js file
 //screen components to be used in navigation are imported here 
 import HomeScreen from "./components/HomeScreen";
 import AboutScreen from "./components/AboutScreen";
 import ContactScreen from './components/ContactScreen';
+import JobDetails from "./app/JobDetails/[id]";
+
 
 //creating instances of the navigation functions
 const Stack = createNativeStackNavigator();//stack nav
@@ -20,7 +29,21 @@ const Drawer = createDrawerNavigator(); //drawer nav
 function DrawerNav() {
   return (
     <Drawer.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
+          ),
+          headerRight: () => (
+            <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
+          ),
+          headerTitle: "",
+        }}
+      />
       <Stack.Screen name="About" component={AboutScreen} />
       <Stack.Screen name="Contact" component={ContactScreen} />
     </Drawer.Navigator>
@@ -43,10 +66,30 @@ export default function App() {
 
     <NavigationContainer>
       <Stack.Navigator initialRouteName="">
-        <Stack.Screen name="Tab"
-          component={TabNav}
-          options={{ headerShown: false }}
+        <Stack.Screen name="Tab" component={TabNav} />
+        <Stack.Screen name="About" component={AboutScreen} />
+        <Stack.Screen name="contact" component={ContactScreen} />
+        <Stack.Screen
+          name="JobDetails"
+          component={JobDetails}
+          options={{
+            headerStyle: { backgroundColor: COLORS.lightWhite },
+            headerShadowVisible: false,
+            headerBackVisible: false,
+            headerLeft: () => (
+              <ScreenHeaderBtn
+                iconUrl={icons.left}
+                dimension='60%'
+                handlePress={() => router.back()}
+              />
+            ),
+            headerRight: () => (
+              <ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
+            ),
+            headerTitle: "",
+          }}
         />
+        <Stack.Screen name="Popularjobs" component={Popularjobs} />
       </Stack.Navigator>
     </NavigationContainer>
 

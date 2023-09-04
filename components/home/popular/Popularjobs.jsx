@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
+
 import {
   View,
   Text,
@@ -12,9 +13,11 @@ import styles from "./popularjobs.style";
 import { COLORS, SIZES } from "../../../constants";
 import PopularJobCard from "../../common/cards/popular/PopularJobCard";
 import useFetch from "../../../hook/useFetch";
+import JobDetails from "../../../app/JobDetails/[id]";
+
 
 const Popularjobs = () => {
-  const router = useRouter();
+
   const { data, isLoading, error } = useFetch("search", {
     query: "React developer",
     num_pages: "1",
@@ -22,10 +25,22 @@ const Popularjobs = () => {
 
   const [selectedJob, setSelectedJob] = useState();
 
+  const navigation = useNavigation();
+
+  /* function handleCardPress(item, { navigation }){
+     return (
+       navigation.navigate(`JobDetails/${item.job_id}`)
+       setSelectedJob(item.job_id);
+     );
+     
+   }*/
+
   const handleCardPress = (item) => {
-    router.push(`/job-details/${item.job_id}`);
+
+    navigation.navigate('JobDetails', { item: item.job_id })
     setSelectedJob(item.job_id);
   };
+
 
   return (
     <View style={styles.container}>

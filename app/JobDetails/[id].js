@@ -1,4 +1,4 @@
-import { Stack, useRouter, useSearchParams } from "expo-router";
+import { useSearchParams } from "react-router-native"
 import { useCallback, useState } from "react";
 import {
   View,
@@ -24,9 +24,8 @@ const tabs = ["About", "Qualifications", "Responsibilities"];
 
 const JobDetails = () => {
   const params = useSearchParams();
-  const router = useRouter();
 
-  const { data, isLoading, error, refetch } = useFetch("job-details", {
+  const { data, isLoading, error, refetch } = useFetch("JobDetails", {
     job_id: params.id,
   });
 
@@ -70,24 +69,6 @@ const JobDetails = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
-          headerShadowVisible: false,
-          headerBackVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.left}
-              dimension='60%'
-              handlePress={() => router.back()}
-            />
-          ),
-          headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
-          ),
-          headerTitle: "",
-        }}
-      />
 
       <>
         <ScrollView showsVerticalScrollIndicator={false}
